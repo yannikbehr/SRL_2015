@@ -1,0 +1,1083 @@
+{
+"CI_11347834": [
+"CI.EML", 
+"CI.SWS", 
+"CI.BOR", 
+"CI.JEM"
+], 
+"NC_71993641": [
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KHMB"
+], 
+"NC_71842075": [
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KCT", 
+"NC.KMPB", 
+"NC.KHBB"
+], 
+"NC_72076146": [
+"NC.KCT", 
+"NC.KHMB", 
+"NC.KMPB", 
+"NC.KMR", 
+"NC.KHBB"
+], 
+"CI_11348882": [
+"CI.SLA", 
+"CI.CLC", 
+"CI.MPM", 
+"CI.JRC2"
+], 
+"NC_71954065": [
+"BK.GASB", 
+"BK.MCCM", 
+"BK.CVS", 
+"BK.MNRC", 
+"BK.SUTB", 
+"BK.HOPS"
+], 
+"CI_11088074": [
+"CI.TOR", 
+"AZ.PFO", 
+"CI.PMD", 
+"CI.BEL"
+], 
+"NC_71839165": [
+"CI.SMM", 
+"CI.CAR", 
+"CI.PHL", 
+"CI.VES"
+], 
+"CI_15222209": [
+"CI.OLP", 
+"CI.BOR", 
+"CI.BAR", 
+"CI.WES"
+], 
+"CI_11407682": [
+"CI.MSJ", 
+"CI.DGR", 
+"CI.PSD", 
+"AZ.PFO", 
+"CI.PMD", 
+"CI.PER", 
+"CI.DNR", 
+"CI.MUR", 
+"CI.PLM", 
+"CI.TOR"
+], 
+"NC_71718846": [
+"NC.KMR", 
+"NC.KRP", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"CI_15344465": [
+"CI.GLA", 
+"CI.DRE", 
+"CI.SAL", 
+"CI.BOM", 
+"CI.RXH"
+], 
+"CI_15201297": [
+"CI.BTC", 
+"CI.WES", 
+"CI.SWS", 
+"CI.RXH", 
+"CI.BOM"
+], 
+"CI_15205377": [
+"CI.DRE", 
+"CI.WES", 
+"CI.RXH", 
+"CI.SWS"
+], 
+"CI_15164105": [
+"CI.CHN", 
+"CI.PLS", 
+"CI.OLI", 
+"CI.SRN", 
+"CI.BRE", 
+"CI.WLT", 
+"CI.PSR"
+], 
+"NC_71741671": [
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KCT", 
+"NC.KMPB", 
+"NC.KCPB"
+], 
+"CI_15204969": [
+"CI.BTC", 
+"CI.WES", 
+"CI.RXH", 
+"CI.SWS", 
+"CI.BOM", 
+"CI.DRE", 
+"CI.SAL"
+], 
+"NC_72016695": [
+"BK.JRSC", 
+"BK.MHC", 
+"BK.HAST", 
+"BK.PACP", 
+"BK.SAO"
+], 
+"NC_71771805": [
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KRP"
+], 
+"CI_11371154": [
+"CI.SWS", 
+"CI.BOR", 
+"CI.BAR", 
+"CI.JEM"
+], 
+"CI_11347826": [
+"CI.WES", 
+"CI.BOR", 
+"CI.SWS", 
+"CI.JEM"
+], 
+"NC_72080926": [
+"NC.KHBB", 
+"NC.KMR", 
+"NC.KCT", 
+"NC.KMPB", 
+"NC.KHMB"
+], 
+"CI_15199577": [
+"CI.WES", 
+"CI.BTC", 
+"CI.RXH", 
+"CI.SWS"
+], 
+"nc_201311082029": [
+"NC.KBO", 
+"NC.KRMB", 
+"NC.KSXB", 
+"NC.KRP", 
+"NC.KCT", 
+"NC.KMPB"
+], 
+"NC_71845790": [
+"NC.KMR", 
+"NC.KHMB", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"NC_71799216": [
+"NC.KSXB", 
+"NC.KHMB", 
+"NC.KRP", 
+"NC.KCT"
+], 
+"NC_71749970": [
+"NC.KRP", 
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KHBB"
+], 
+"CI_15343145": [
+"CI.CIA", 
+"CI.FMP", 
+"CI.STS", 
+"CI.RPV", 
+"CI.LAF", 
+"CI.PDR"
+], 
+"CI_15395521": [
+"CI.GOR", 
+"CI.PLM", 
+"CI.MUR", 
+"CI.DGR"
+], 
+"NC_72109096": [
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KCT", 
+"NC.KMPB", 
+"NC.KCPB"
+], 
+"CI_15237073": [
+"CI.DNR", 
+"CI.MSJ", 
+"CI.DGR", 
+"CI.SLR"
+], 
+"NC_72057971": [
+"BK.SUTB", 
+"BK.MCCM", 
+"BK.CVS", 
+"BK.HOPS", 
+"BK.MNRC"
+], 
+"CI_15098716": [
+"CI.SAL", 
+"CI.GLA", 
+"CI.BTC", 
+"CI.DRE"
+], 
+"CI_15150785": [
+"AZ.PFO", 
+"CI.DNR", 
+"CI.TOR", 
+"CI.BOR", 
+"CI.JEM", 
+"CI.PMD"
+], 
+"NN_400812": [
+"NC.MCB", 
+"NC.AFD", 
+"NC.MMLB", 
+"NC.MDPB"
+], 
+"CI_15141521": [
+"CI.TA2", 
+"CI.CLT", 
+"CI.LUG", 
+"CI.SBPX"
+], 
+"NC_71784801": [
+"BK.SUTB", 
+"BK.MNRC", 
+"BK.MCCM", 
+"BK.HOPS", 
+"BK.CVS", 
+"BK.BKS", 
+"BK.BRIB", 
+"BK.GASB", 
+"BK.BDM"
+], 
+"CI_15202921": [
+"CI.BTC", 
+"CI.DRE", 
+"CI.SWS", 
+"CI.RXH", 
+"CI.WES", 
+"CI.BOM"
+], 
+"CI_15157065": [
+"CI.RPV", 
+"CI.SNCC", 
+"CI.CIA", 
+"CI.SBI"
+], 
+"CI_15292545": [
+"CI.GSC", 
+"CI.CCC", 
+"CI.SHO", 
+"CI.SLA"
+], 
+"NC_71920936": [
+"NC.KHBB", 
+"NC.KHMB", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KMR"
+], 
+"NC_71863730": [
+"BK.SAO", 
+"BK.RAMR", 
+"BK.HAST", 
+"BK.PKD"
+], 
+"CI_11248258": [
+"CI.EML", 
+"CI.SDG", 
+"CI.SDR", 
+"CI.OLP"
+], 
+"NC_72129596": [
+"NC.KRP", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KHMB"
+], 
+"NC_71819471": [
+"NC.KHMB", 
+"NC.KRP", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KMR"
+], 
+"NC_71962335": [
+"CI.CAR", 
+"CI.SMM", 
+"CI.SMR", 
+"CI.PHL", 
+"CI.LCP", 
+"CI.MPP", 
+"CI.NJQ"
+], 
+"NC_71864295": [
+"NC.KRMB", 
+"NC.KRP", 
+"NC.KHBB", 
+"NC.KHMB"
+], 
+"CI_11388610": [
+"CI.SWS", 
+"CI.GLA", 
+"CI.DRE", 
+"CI.WES"
+], 
+"NC_72026710": [
+"BK.BRIB", 
+"BK.MCCM", 
+"BK.CVS", 
+"BK.MNRC", 
+"BK.GASB", 
+"BK.BKS"
+], 
+"CI_11273634": [
+"CI.TOR", 
+"CI.BOR", 
+"CI.PMD", 
+"CI.DNR", 
+"AZ.PFO", 
+"AZ.TRO"
+], 
+"CI_15354321": [
+"CI.SAL", 
+"CI.SWS", 
+"CI.BOM", 
+"CI.RXH", 
+"CI.DRE", 
+"CI.BC3", 
+"CI.WES", 
+"CI.GLA"
+], 
+"NC_71804195": [
+"NC.KMR", 
+"NC.KHMB", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"NC_71717085": [
+"BK.CVS", 
+"BK.GASB", 
+"BK.HOPS", 
+"BK.MNRC", 
+"BK.SUTB"
+], 
+"NC_71743876": [
+"NC.KSXB", 
+"NC.KHBB", 
+"NC.KRMB", 
+"NC.KHMB"
+], 
+"CI_11405954": [
+"CI.WES", 
+"CI.SDR", 
+"CI.OLP", 
+"CI.BAR"
+], 
+"CI_15350729": [
+"CI.LCP", 
+"CI.FIG", 
+"CI.NJQ", 
+"CI.SBC"
+], 
+"CI_11249474": [
+"CI.RVR", 
+"CI.PER", 
+"CI.RSS", 
+"CI.SVD"
+], 
+"CI_15139337": [
+"CI.SRN", 
+"CI.STG", 
+"CI.PLS", 
+"CI.SDD", 
+"CI.LLS"
+], 
+"CI_15200401": [
+"CI.BOM", 
+"CI.BTC", 
+"CI.SWS", 
+"CI.RXH", 
+"CI.SAL", 
+"CI.WES", 
+"CI.DRE", 
+"CI.BC3"
+], 
+"NC_71766345": [
+"NC.KHBB", 
+"NC.KHMB", 
+"NC.KCT", 
+"NC.KRP", 
+"NC.KSXB"
+], 
+"NC_71909141": [
+"CI.CAR", 
+"CI.SMM", 
+"CI.PHL", 
+"CI.SMR", 
+"CI.LCP", 
+"CI.FIG", 
+"CI.MPP", 
+"CI.NJQ"
+], 
+"CI_11344050": [
+"CI.CGO", 
+"CI.MPM", 
+"CI.JRC2", 
+"CI.CWC", 
+"CI.CLC"
+], 
+"CI_15237281": [
+"CI.SPF", 
+"CI.HLL", 
+"CI.DJJ", 
+"CI.PDE", 
+"CI.DEC", 
+"CI.LFP", 
+"CI.RIN"
+], 
+"CI_15356121": [
+"CI.PLM", 
+"AZ.LVA2", 
+"CI.JEM", 
+"CI.SAL", 
+"CI.SWS"
+], 
+"CI_15115905": [
+"CI.SWS", 
+"CI.BTC", 
+"CI.WES", 
+"CI.DRE"
+], 
+"CI_15201537": [
+"CI.WES", 
+"CI.BTC", 
+"CI.SWS", 
+"CI.RXH"
+], 
+"NC_71863625": [
+"BK.SAO", 
+"BK.RAMR", 
+"BK.HAST", 
+"BK.PKD"
+], 
+"NC_71907486": [
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KCPB", 
+"NC.KHBB"
+], 
+"NC_71947725": [
+"NC.KCPB", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KHMB"
+], 
+"NC_71848175": [
+"NC.KMR", 
+"NC.KHMB", 
+"NC.KRP", 
+"NC.KCT", 
+"NC.KSXB"
+], 
+"CI_11092194": [
+"AZ.FRD", 
+"AZ.BZN", 
+"AZ.PFO", 
+"AZ.TRO", 
+"AZ.LVA2", 
+"CI.PMD", 
+"CI.BOR"
+], 
+"CI_15153497": [
+"CI.RXH", 
+"CI.SWS", 
+"CI.DRE", 
+"CI.WES"
+], 
+"CI_15204369": [
+"CI.WES", 
+"CI.BTC", 
+"CI.SWS", 
+"CI.RXH", 
+"CI.DRE", 
+"CI.BOM", 
+"CI.GLA"
+], 
+"CI_15200489": [
+"CI.WES", 
+"CI.BTC", 
+"CI.SWS", 
+"CI.RXH"
+], 
+"NC_71922121": [
+"BK.PKD", 
+"BK.PACP", 
+"BK.HAST", 
+"BK.SAO"
+], 
+"NC_71795731": [
+"BK.SAO", 
+"BK.JRSC", 
+"BK.PACP", 
+"BK.MHC"
+], 
+"CI_15223417": [
+"CI.BOR", 
+"CI.BAR", 
+"CI.WES", 
+"CI.SWS", 
+"CI.JEM", 
+"CI.SAL"
+], 
+"CI_15396897": [], 
+"CI_11129826": [
+"CI.BTC", 
+"CI.SWS", 
+"CI.WES", 
+"CI.DRE"
+], 
+"nc_201309092045": [
+"NC.KSXB", 
+"NC.KRMB", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KHMB"
+], 
+"NC_71903411": [
+"NC.KCPB", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"CI_11084594": [
+"CI.BTC", 
+"CI.DRE", 
+"CI.SWS", 
+"CI.WES"
+], 
+"NC_71865635": [
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KCPB"
+], 
+"NC_71827401": [
+"CI.CAR", 
+"CI.SMM", 
+"CI.PHL", 
+"CI.SMR"
+], 
+"CI_11135362": [
+"CI.SLR", 
+"CI.SNO", 
+"CI.BEL", 
+"CI.PSD", 
+"CI.PMD", 
+"CI.BBR"
+], 
+"NC_71959700": [
+"NC.KMR", 
+"NC.KHMB", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"CI_15182841": [
+"CI.RPV", 
+"CI.LCG", 
+"CI.SPF", 
+"CI.PDR", 
+"CI.DJJ", 
+"CI.HLL"
+], 
+"CI_11208786": [
+"CI.SWS", 
+"CI.SAL", 
+"CI.BOR", 
+"CI.JEM"
+], 
+"NC_71729135": [
+"BK.SUTB", 
+"BK.MCCM", 
+"BK.MNRC", 
+"BK.HOPS", 
+"BK.CVS", 
+"BK.BRIB", 
+"BK.BKS", 
+"BK.GASB", 
+"BK.BDM"
+], 
+"CI_11088434": [
+"CI.NSS2", 
+"CI.TOR", 
+"CI.MCT", 
+"CI.PSD"
+], 
+"CI_11373458": [
+"CI.GMR", 
+"CI.MCT", 
+"CI.DSC", 
+"CI.NBS", 
+"CI.HEC"
+], 
+"CI_11339042": [], 
+"CI_11132314": [
+"CI.SNO", 
+"CI.SBPX", 
+"CI.SVD", 
+"CI.BBR"
+], 
+"NC_71785981": [
+"NC.KRP", 
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KMPB"
+], 
+"CI_15152793": [
+"CI.LJR", 
+"CI.BTP", 
+"CI.ARV", 
+"CI.LDR"
+], 
+"NC_71828881": [
+"NC.KRMB", 
+"NC.KHMB", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KSXB"
+], 
+"NC_71839170": [
+"CI.VES", 
+"CI.SMM", 
+"CI.CAR", 
+"CI.PHL", 
+"CI.SMR"
+], 
+"CI_15162881": [
+"CI.BTC", 
+"CI.SWS", 
+"CI.DRE", 
+"CI.WES"
+], 
+"CI_15207433": [
+"CI.SRN", 
+"CI.PLS", 
+"CI.CHN", 
+"CI.PSR"
+], 
+"CI_15338761": [
+"CI.BCW", 
+"CI.MPI", 
+"CI.STC", 
+"CI.SES", 
+"CI.WGR"
+], 
+"CI_15396881": [
+"CI.LRL", 
+"CI.ISA", 
+"CI.WBS", 
+"CI.TEH", 
+"CI.LDR"
+], 
+"CI_15147457": [
+"CI.OLP", 
+"CI.BAR", 
+"CI.DRE", 
+"CI.WES"
+], 
+"CI_15189073": [
+"CI.PLS", 
+"CI.OLI", 
+"CI.PSR", 
+"CI.SRN", 
+"CI.CHN", 
+"CI.WLT"
+], 
+"CI_15199721": [
+"CI.SAL", 
+"CI.BTC", 
+"CI.WES", 
+"CI.SWS"
+], 
+"CI_15191649": [
+"CI.SLA", 
+"CI.MPM", 
+"CI.CLC", 
+"CI.JRC2", 
+"CI.LRL", 
+"CI.CCC", 
+"CI.WBS", 
+"CI.ISA"
+], 
+"CI_15156505": [
+"CI.RPV", 
+"CI.SPF", 
+"CI.LGU", 
+"CI.SBI"
+], 
+"CI_15254617": [
+"CI.CGO", 
+"CI.CLC", 
+"CI.MPM", 
+"CI.JRC2"
+], 
+"CI_15273833": [
+"CI.LRL", 
+"CI.ISA", 
+"CI.TEH", 
+"CI.WBS"
+], 
+"CI_15252921": [
+"CI.CGO", 
+"CI.CLC", 
+"CI.MPM", 
+"CI.JRC2", 
+"CI.CWC"
+], 
+"CI_15198929": [
+"CI.WES", 
+"CI.BTC", 
+"CI.SWS", 
+"CI.RXH"
+], 
+"PAS_201212111019": [
+"CI.SDR", 
+"CI.SWS", 
+"CI.OLP", 
+"CI.BAR", 
+"CI.WES"
+], 
+"CI_15267105": [
+"CI.SAL", 
+"CI.SWS", 
+"CI.JEM", 
+"CI.BOR"
+], 
+"NC_71736656": [
+"BK.CVS", 
+"BK.BRK", 
+"BK.BKS", 
+"BK.BRIB"
+], 
+"NC_71759475": [
+"NC.PHSB", 
+"NC.BJOB", 
+"NC.PMPB", 
+"NC.BBGB", 
+"NC.PSM"
+], 
+"NC_71813266": [
+"BK.SUTB", 
+"BK.MCCM", 
+"BK.MNRC", 
+"BK.HOPS", 
+"BK.CVS", 
+"BK.BRIB", 
+"BK.GASB", 
+"BK.BKS"
+], 
+"CI_15353521": [
+"AZ.LVA2", 
+"CI.PLM", 
+"CI.EML", 
+"AZ.FRD", 
+"AZ.BZN", 
+"AZ.CRY", 
+"CI.JEM", 
+"CI.BOR"
+], 
+"NC_71776130": [
+"BK.MCCM", 
+"BK.CVS", 
+"BK.MNRC", 
+"BK.HOPS"
+], 
+"CI_11129930": [
+"CI.GLA", 
+"CI.BTC", 
+"CI.DRE", 
+"CI.WES"
+], 
+"NC_71842255": [
+"NC.KRP", 
+"NC.KMR", 
+"NC.KCT", 
+"NC.KMPB", 
+"NC.KHMB", 
+"NC.KHBB"
+], 
+"CI_15200513": [
+"CI.BTC", 
+"CI.WES", 
+"CI.RXH", 
+"CI.SWS"
+], 
+"CI_11129994": [
+"CI.GLA", 
+"CI.BTC", 
+"CI.WES", 
+"CI.DRE"
+], 
+"NC_71815561": [
+"NC.KMPB", 
+"NC.KMR", 
+"NC.KHBB", 
+"NC.KHMB"
+], 
+"CI_15162145": [
+"CI.GLA", 
+"CI.BAR", 
+"CI.BTC", 
+"CI.WES"
+], 
+"CI_11104642": [
+"CI.BAR", 
+"CI.DRE", 
+"CI.SWS", 
+"CI.WES", 
+"CI.BTC"
+], 
+"CI_15199689": [
+"CI.WES", 
+"CI.BTC", 
+"CI.SWS", 
+"CI.RXH", 
+"CI.SAL"
+], 
+"NC_71993701": [
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"CI_11247690": [
+"AZ.LVA2", 
+"CI.BOM", 
+"CI.BOR", 
+"CI.SAL", 
+"CI.RXH", 
+"CI.TOR", 
+"CI.SWS", 
+"CI.NSS2"
+], 
+"CI_11371586": [
+"CI.SAL", 
+"CI.RXH", 
+"CI.WES", 
+"CI.SWS"
+], 
+"NC_71989571": [
+"NC.KHBB", 
+"NC.KHMB", 
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"NC_71888646": [
+"NC.KMR", 
+"NC.KHMB", 
+"NC.KMPB", 
+"NC.KCT", 
+"NC.KHBB", 
+"NC.KCPB"
+], 
+"CI_11366994": [
+"AZ.FRD", 
+"AZ.BZN", 
+"AZ.LVA2", 
+"CI.BOR", 
+"AZ.SND", 
+"AZ.PFO"
+], 
+"NC_71736351": [
+"BK.BDM", 
+"BK.BKS", 
+"BK.BRK", 
+"BK.BRIB", 
+"BK.CVS"
+], 
+"CI_15396097": [
+"CI.PHL", 
+"CI.SMR", 
+"CI.NJQ", 
+"CI.LCP"
+], 
+"CI_11051197": [
+"CI.PMD", 
+"CI.TOR", 
+"CI.NSS2", 
+"CI.CTC", 
+"CI.BEL"
+], 
+"CI_15226257": [
+"CI.SAL", 
+"AZ.LVA2", 
+"CI.JEM", 
+"CI.BOR"
+], 
+"NC_71734741": [
+"NC.KHBB", 
+"NC.KSXB", 
+"NC.KRP", 
+"NC.KHMB", 
+"NC.KRMB"
+], 
+"NC_71870540": [
+"BK.PKD", 
+"BK.PACP", 
+"BK.HAST", 
+"BK.SAO"
+], 
+"CI_15189281": [
+"CI.WLT", 
+"CI.BRE", 
+"CI.MLS", 
+"CI.CHN", 
+"CI.PLS", 
+"CI.PSR", 
+"CI.OLI", 
+"CI.SRN", 
+"CI.PDU"
+], 
+"CI_15270393": [
+"CI.GLA", 
+"CI.SWS", 
+"CI.WES", 
+"CI.DRE"
+], 
+"NC_72113080": [
+"BK.HAST", 
+"BK.MHC", 
+"BK.PACP", 
+"BK.SAO"
+], 
+"NC_71859625": [
+"NC.KHMB", 
+"NC.KRP", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"CI_11366538": [
+"CI.MLS", 
+"CI.PDU", 
+"CI.CHN", 
+"CI.PSR", 
+"CI.RIO", 
+"CI.RUS", 
+"CI.BFS"
+], 
+"CI_11373818": [
+"CI.GMR", 
+"CI.MCT", 
+"CI.DSC", 
+"CI.NBS", 
+"CI.HEC"
+], 
+"NC_71903911": [
+"BK.SUTB", 
+"BK.MCCM", 
+"BK.MNRC", 
+"BK.HOPS", 
+"BK.CVS", 
+"BK.BKS", 
+"BK.BDM"
+], 
+"CI_15200601": [
+"CI.WES", 
+"CI.BTC", 
+"CI.SWS", 
+"CI.RXH", 
+"CI.SAL"
+], 
+"NC_72119970": [
+"CI.BAK", 
+"CI.VES", 
+"CI.CAR", 
+"CI.SMM"
+], 
+"CI_11049285": [
+"CI.STC", 
+"CI.MOP", 
+"CI.FMP", 
+"CI.SPF", 
+"CI.SCZ2", 
+"CI.CIA", 
+"CI.WGR"
+], 
+"NC_72125816": [
+"NC.KHMB", 
+"NC.KRP", 
+"NC.KMPB", 
+"NC.KCT"
+], 
+"NC_72115885": [
+"BK.HOPS", 
+"BK.SUTB", 
+"BK.MNRC", 
+"BK.CVS"
+], 
+"NC_71804865": [
+"NC.KCT", 
+"NC.KHBB", 
+"NC.KMR", 
+"NC.KCPB", 
+"NC.KMPB"
+], 
+"CI_11066877": [
+"CI.BTC", 
+"CI.SWS", 
+"CI.DRE", 
+"CI.WES"
+], 
+"CI_15199593": [
+"CI.WES", 
+"CI.BTC", 
+"CI.SWS", 
+"CI.RXH"
+], 
+"CI_11104602": [
+"CI.EML", 
+"CI.BOR", 
+"CI.BAR", 
+"CI.WES"
+], 
+"CI_11129914": [
+"CI.SWS", 
+"CI.BTC", 
+"CI.DRE", 
+"CI.WES"
+], 
+"NC_71988946": [
+"BK.JRSC", 
+"BK.WENL", 
+"BK.SCCB", 
+"BK.MHC", 
+"BK.BDM", 
+"BK.PACP"
+], 
+"CI_15447161": [
+"CI.ISA", 
+"CI.CGO", 
+"CI.CWC", 
+"CI.JRC2"
+], 
+"NC_72086051": [
+"NC.KMR", 
+"NC.KMPB", 
+"NC.KHMB", 
+"NC.KCT"
+]
+}

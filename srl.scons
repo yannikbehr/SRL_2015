@@ -1,0 +1,810 @@
+import matplotlib
+if True:
+    try:
+        matplotlib.use('WXAgg')
+        import wx
+    except:
+        print "WX package for Python not installed"
+else:
+    matplotlib.use('Agg')
+import os
+import sys
+from point_in_polygon import EventCA
+import matplotlib.pyplot as plt
+from matplotlib import rcParams
+import numpy as np
+import glob
+from travel_time_ch import StationInfo as StationInfoCH
+from travel_time_ca import StationInfo as StationInfoCA
+from scvsmag_alert_times import AlertTimes
+from alerttimemap import AlertTimeMap
+from eewvs_alert_times import AlertTimes as EewvsAlertTimes
+from report2logfile import number_of_picks
+from histogram_figure_ca import histogram_ca
+from histogram_figure_ch import histogram_ch
+from timeline import TimeLine
+from matplotlib.pyplot import cm
+from matplotlib.colorbar import ColorbarBase
+from matplotlib.colors import Normalize, BoundaryNorm
+from mpl_toolkits.basemap import Basemap
+from delayeew import DelayEEW
+import json
+
+
+# Load station information for Switzerland
+class NetworkInfoCH:
+
+    def __init__(self):
+        self.lat = []
+        self.lon = []
+        self.chn = []
+        self.nw = []
+        self.nm = []
+        self.lc = []
+        self.excludes = ['RA.OGSI', 'RA.STBO', 'RA.STFL']
+        self.size = 0
+        self.networks = {}
+        self.networks['ch'] = {'lat': [], 'lon': [], 'chn': [],
+                               'nw': [], 'nm': [], 'lc': [],
+                               'color':'white', 'label':''}
+
+    def read(self, fn, sm=True):
+        f = open(fn, 'r')
+        for line in f.readlines():
+            nt, st, chn, loc, lat, lon = line.split()
+            if not sm:
+                if chn[0:2] == 'HG' or chn[0:2] == 'HN':
+                    continue
+            ns = '%s.%s' % (nt, st)
+            if ns in self.excludes:
+                continue
+            if ns not in self.networks['ch']['nm']:
+                self.networks['ch']['nm'].append(ns)
+                self.networks['ch']['nw'].append(nt)
+                self.networks['ch']['chn'].append(chn)
+                self.networks['ch']['lc'].append(loc)
+                self.networks['ch']['lat'].append(float(lat))
+                self.networks['ch']['lon'].append(float(lon))
+                self.size += 1
+        f.close()
+
+    def get_networks(self):
+        return self.networks
+
+# Load station information for California
+class NetworkInfoCa:
+
+    def __init__(self):
+        self.networks = {}
+        self.networks['bk'] = {'lat': [], 'lon': [], 'chn': [],
+                               'nw': [], 'nm': [], 'lc': [],
+                               'color':'black', 'label':'UC Berkeley'}
+        self.networks['ca'] = {'lat': [], 'lon': [], 'chn': [],
+                               'nw': [], 'nm': [], 'lc': [],
+                               'color':'grey', 'label':'Caltech'}
+        self.networks['mp'] = {'lat': [], 'lon': [], 'chn': [],
+                               'nw': [], 'nm': [], 'lc': [],
+                               'color':'white', 'label':'USGS Menlo Park'}
+        # self.excludes = ['BK.TSCN','CI.SRI','BK.OXMT', 'CA.MHDL', 'NC.KRP',
+        #                 'CI.SCI2', 'CI.OSI','CI.GR2', 'CI.MSC', 'CI.DEV',
+        #                 'AZ.MONP2', 'CI.MGE', 'CI.MTP', 'CI.ERR',
+        #                 'CI.DRE', 'BK.MNRC', 'NC.KRMB', 'NC.KSXB', 'CI.CTD',
+        #                 'BK.KCC', 'NC.MMLB','CI.PASC', 'CI.LUG']
+        self.excludes = ['CI.SYP', 'NC.KRP', 'CI.SCI2', 'CI.BHP', 'CI.LPC',
+                         'AZ.MONP2', 'CI.FHO', 'CI.MSC', 'CI.DEV', 'CI.WWC',
+                         'CI.IDO', 'NC.MDPB', 'BK.HOPS', 'NC.KBO', 'NC.KEB',
+                         'CI.CTD', 'CI.PASC']
+
+    def read(self, fn, sm=True, statewide=False):
+        f = open(fn, 'r')
+        for line in f.readlines():
+            nt, st, chn, loc, lat, lon = line.split()
+            if not sm:
+                if chn[0:2] == 'HG' or chn[0:2] == 'HN':
+                    continue
+            ns = '%s.%s' % (nt, st)
+            if ns in self.excludes:
+                continue
+            # To simulate a statewide system all stations are assigned
+            # to a single network
+            if statewide:
+                if ns not in self.networks['ca']['nm']:
+                    self.networks['ca']['nm'].append(ns)
+                    self.networks['ca']['nw'].append(nt)
+                    self.networks['ca']['chn'].append(chn)
+                    self.networks['ca']['lc'].append(loc)
+                    self.networks['ca']['lat'].append(float(lat))
+                    self.networks['ca']['lon'].append(float(lon))
+            else:
+                if nt == 'AZ' or nt == 'CI':
+                    if ns not in self.networks['ca']['nm']:
+                        self.networks['ca']['nm'].append(ns)
+                        self.networks['ca']['nw'].append(nt)
+                        self.networks['ca']['chn'].append(chn)
+                        self.networks['ca']['lc'].append(loc)
+                        self.networks['ca']['lat'].append(float(lat))
+                        self.networks['ca']['lon'].append(float(lon))
+                elif nt == 'NP' or nt == 'NC':
+                    if ns not in self.networks['mp']['nm']:
+                        self.networks['mp']['nm'].append(ns)
+                        self.networks['mp']['nw'].append(nt)
+                        self.networks['mp']['chn'].append(chn)
+                        self.networks['mp']['lc'].append(loc)
+                        self.networks['mp']['lat'].append(float(lat))
+                        self.networks['mp']['lon'].append(float(lon))
+                elif nt == 'BK':
+                    if ns not in self.networks['bk']['nm']:
+                        self.networks['bk']['nm'].append(ns)
+                        self.networks['bk']['nw'].append(nt)
+                        self.networks['bk']['chn'].append(chn)
+                        self.networks['bk']['lc'].append(loc)
+                        self.networks['bk']['lat'].append(float(lat))
+                        self.networks['bk']['lon'].append(float(lon))
+                else:
+                    print "Unknown network: %s %s " % (nt, st)
+        f.close()
+
+    def get_networks(self):
+        return self.networks
+
+class DelayObsCH:
+    """
+    Load processing latencies for Switzerland.
+    """
+    def __init__(self):
+        self.datadir = "./data"
+        self.pkdelfn = os.path.join(self.datadir,
+                                    'single_station_pk_delays_ch.txt')
+        self.envdelfn = os.path.join(self.datadir,
+                                     'single_station_env_delays_ch.txt')
+        self.octdelfn = os.path.join(self.datadir,
+                                     'origin_estimation_delay_ch.npz')
+        self.magdelfn = os.path.join(self.datadir,
+                                     'magnitude_estimation_delay.npz')
+
+    def load(self, perstation=False):
+        # envelopes
+        fh = open(self.envdelfn)
+        self.envdel = json.load(fh)
+        fh.close()
+        delays = []
+        for st in self.envdel.keys():
+            if perstation:
+                delays.append(np.median(self.envdel[st]))
+            else:
+                delays += self.envdel[st]
+        self.envdefault = {'ch':np.median(delays)}
+
+        # picks
+        fh = open(self.pkdelfn)
+        self.pkdel = json.load(fh)
+        fh.close()
+        delays = []
+        for st in self.pkdel.keys():
+            if perstation:
+                delays.append(np.median(self.pkdel[st]))
+            else:
+                delays += self.pkdel[st]
+        self.pkdefault = {'ch':np.median(delays)}
+
+        # associator
+        a = np.load(self.octdelfn)
+        self.ascdel = a['delays']
+
+        # magnitude
+        a = np.load(self.magdelfn)
+        self.magdel = a['delays']
+
+    def get_pick_delays(self):
+        return self.pkdel
+
+    def get_pick_default(self):
+        return self.pkdefault
+
+    def get_envelope_default(self):
+        return self.envdefault
+
+    def get_envelope_delays(self):
+        return self.envdel
+
+    def get_associator_delays(self):
+        return self.ascdel
+
+    def get_magnitude_delays(self):
+        return self.magdel
+
+
+class DelayObsCa:
+    """
+    Load processing latencies for California.
+    """
+    def __init__(self):
+        self.datadir = "./data"
+        self.pkdelfn = os.path.join(self.datadir,
+                                    'single_station_pk_delays_ca.txt')
+        self.envdelfn = os.path.join(self.datadir,
+                                     'single_station_env_delays_ca.txt')
+        self.ascdelfn = os.path.join(self.datadir,
+                                     'eewvs_origin_delays.npz')
+        self.magdelfn = os.path.join(self.datadir,
+                                     'magnitude_estimation_delay.npz')
+
+    def load(self, perstation=False, optimallatency=False):
+        # Picks
+        fh = open(self.pkdelfn)
+        self.pkdel = json.load(fh)
+        fh.close()
+        bkdelays = []
+        mpdelays = []
+        cadelays = []
+        for _k in self.pkdel.keys():
+            net, stat = _k.split('.')
+            if net == 'NP' or net == 'NC':
+                if perstation:
+                    mpdelays.append(np.median(self.pkdel[_k]))
+                else:
+                    mpdelays += self.pkdel[_k]
+            elif net == 'CI' or net == 'AZ':
+                if optimallatency:
+                    self.pkdel[_k] = 2.0 * np.random.random_sample(500) + 0.5
+                if perstation:
+                    cadelays.append(np.median(self.pkdel[_k]))
+                else:
+                    cadelays += self.pkdel[_k]
+            elif net == 'BK':
+                if perstation:
+                    bkdelays.append(np.median(self.pkdel[_k]))
+                else:
+                    bkdelays += self.pkdel[_k]
+            else:
+                print "Unknown network %s" % net
+        self.pkdefault = {'mp': np.median(mpdelays),
+                     'bk': np.median(bkdelays),
+                     'ca': np.median(cadelays)}
+        # Envelopes
+        fh = open(self.envdelfn)
+        self.envdel = json.load(fh)
+        fh.close()
+        bkdelays = []
+        mpdelays = []
+        cadelays = []
+        for _k in self.envdel.keys():
+            net, stat = _k.split('.')
+            if net == 'NP' or net == 'NC':
+                if perstation:
+                    mpdelays.append(np.median(self.envdel[_k]))
+                else:
+                    mpdelays += self.envdel[_k]
+            elif net == 'CI' or net == 'AZ':
+                if optimallatency:
+                    self.envdel[_k] = 2.0 * np.random.random_sample(500) + 0.5
+                if perstation:
+                    cadelays.append(np.median(self.envdel[_k]))
+                else:
+                    cadelays += self.envdel[_k]
+            elif net == 'BK':
+                if perstation:
+                    bkdelays.append(np.median(self.envdel[_k]))
+                else:
+                    bkdelays += self.envdel[_k]
+            else:
+                print "Unknown network %s" % net
+
+        self.envdefault = {'mp': np.median(mpdelays),
+                     'bk': np.median(bkdelays),
+                     'ca': np.median(cadelays)}
+        # associator
+        a = np.load(self.ascdelfn)
+        self.ascdel = a['acdl']
+
+        # magnitude
+        a = np.load(self.magdelfn)
+        self.magdel = a['delays']
+
+    def get_pick_delays(self):
+        return self.pkdel
+
+    def get_pick_default(self):
+        return self.pkdefault
+
+    def get_envelope_default(self):
+        return self.envdefault
+
+    def get_envelope_delays(self):
+        return self.envdel
+
+    def get_associator_delays(self):
+        return self.ascdel
+
+    def get_magnitude_delays(self):
+        return self.magdel
+
+##################### Figure 1 ################################################
+def timeline(target, source, env):
+    fig = plt.figure(figsize=(10, 6))
+    ax = fig.add_subplot(111)
+    tl = TimeLine(ax, fontsize=16)
+    tl.counter = '1'
+    tl.add_preproc(tp=3.5, tl=2.0, ystart=4.0, top=True, label='Station 1')
+    tl.counter = '2'
+    tl.add_preproc(tp=5.5, tl=1.0, ystart=2.0, label='Station 2')
+    tl.counter = 'n'
+    tl.add_preproc(bottom=True, label='Station n')
+    # tl.torg = 13.
+    tl.add_post_proc(1., 1., 0.6, txt_offst=0.15)
+    tl.add_timeaxis()
+    tl.vdots()
+    tl.set_limits()
+    plt.savefig(env['fout'], bbox_inches='tight', dpi=300)
+    plt.show()
+
+###################### Figure 2 ###############################################
+def p_wave_tt_ch(target, source, env):
+    stationlist = './data/stations_ch.txt'
+    resultsfn = './data/p_wave_tt_6_stations_ch_sm.npz'
+    boxin = (45.4, 48.3, 5.6, 11.1)
+    boxout = (44., 49.5, 4.5, 13.5, 47.)
+    latmin, latmax, lonmin, lonmax = boxin
+    lat = np.linspace(latmin, latmax, 201)
+    lon = np.linspace(lonmin, lonmax, 201)
+    dep = np.array([8.0])
+    mlat, mlon, mdep = np.meshgrid(lat, lon, dep)
+    ni = NetworkInfoCH()
+    ni.read(stationlist, sm=True)
+    if True:
+        de = DelayEEW()
+        de.compute(ni, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=6,
+                   procdelay=False, target=None, nmaps=1,
+                   resultsfn=resultsfn, vp3d=False)
+
+    fig = plt.figure(figsize=(10, 10))
+    ax = fig.add_axes([0.08, 0.35, 0.8, 0.6])
+
+    am = AlertTimeMap(resultsfn)
+    m = am.plot2D(fig, ax, scale=True, clevels=[5, 10])
+    am.plot_stations(fig, ax, ni)
+
+    regionnames = [(7.367, 46.124, 'VS'),
+                   (7.593, 47.559, 'BS'),
+                   (9.365, 47.418, 'SG'),
+                   (10.000, 46.5, 'GR')]
+    for lc in regionnames:
+        lon, lat, nm = lc
+        x, y = m(lon, lat)
+        ax.text(x, y, nm, color='black', weight='bold')
+    fig.savefig(env['fout'], dpi=300, bbox_inches='tight')
+    plt.show()
+
+###################### Figure 3 ###############################################
+def p_wave_tt_ca(target, source, env):
+    stationlist = 'data/stations_ca_2012-2013.txt'
+    resultsfn = './data/p_wave_tt_4_stations_ca_2012-2013.npz'
+    resultsfn_in = './data/p_wave_tt_4_stations_ca_sw.npz'
+    boxin = (32, 43, -125, -114)
+    boxout = (31.8, 43, -126, -114, 37.5)
+    latmin, latmax, lonmin, lonmax = boxin
+    lat = np.linspace(latmin, latmax, 201)
+    lon = np.linspace(lonmin, lonmax, 201)
+    dep = np.array([8.0])
+    mlat, mlon, mdep = np.meshgrid(lat, lon, dep)
+    ni = NetworkInfoCa()
+    ni.read(stationlist, sm=False)
+    if False:
+        de = DelayEEW()
+        de.compute(ni, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=4,
+                   procdelay=False, target=None, nmaps=1,
+                   resultsfn=resultsfn, vp3d=False)
+        ni_inset = NetworkInfoCa()
+        ni_inset.read(stationlist, sm=False, statewide=True)
+        de_inset = DelayEEW()
+        de_inset.compute(ni_inset, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=4,
+                         procdelay=False, target=None, nmaps=1,
+                         resultsfn=resultsfn_in, vp3d=False)
+    fig = plt.figure(figsize=(11, 12))
+    # fig = plt.figure(figsize=(9.6, 9.6))
+    # ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+    ax = fig.add_axes([0.08, 0.05, 0.6, 0.8])
+    axin = fig.add_axes([0.4, 0.39, 0.15, 0.3])
+    am = AlertTimeMap(resultsfn, mapbox=boxout)
+    m = am.plot2D(fig, ax, scale=True, geofilter=EventCA(), clevels=[5, 10],
+                  cbshrink=0.6, nnst=4)
+    am.plot_stations(fig, ax, ni, networklabels=True)
+    am_in = AlertTimeMap(resultsfn_in, mapbox=boxout)
+    am_in.plot2D(fig, axin, scale=False, geofilter=EventCA())
+    # Add the Gutenberg-Byerly line.
+    xgb, ygb = m([-121.15, -117.86], [35.67, 37.45])
+    m.plot(xgb, ygb, 'k--', lw=3.0)
+    fig.savefig(env['fout'], dpi=300, bbox_inches='tight')
+    plt.show()
+
+###################### Figure 4 ###############################################
+def combi_figure(target, source, env):
+    """
+    Combine the different histograms to one figure.
+    """
+    rcParams['figure.subplot.left'] = 0.03
+    rcParams['figure.subplot.right'] = 0.97
+    rcParams['figure.subplot.top'] = 1.00
+    rcParams['figure.subplot.bottom'] = 0.05
+    rcParams['figure.subplot.hspace'] = 0.00
+    rcParams['figure.subplot.wspace'] = 0.05
+    rcParams['legend.fontsize'] = 12
+    rcParams['font.size'] = 12
+
+    fig = plt.figure(figsize=(11.7, 16.5))
+    histogram_ca(fig, (5, 2, 2), 2)
+    histogram_ch(fig, (5, 2, 1), 2)
+    plt.savefig(env['fout'], dpi=300,
+                bbox_inches='tight',
+                transparent=False)
+    plt.show()
+
+######################## Run the alert prediction models ######################
+def run_ch_model(target, source, env):
+    datadir = "./data/"
+    stationlist = os.path.join(datadir, 'stations_ch.txt')
+    de = DelayEEW()
+    latmin, latmax, lonmin, lonmax = 45.4, 48.3, 5.6, 11.1
+    lat = np.linspace(latmin, latmax, 201)
+    lon = np.linspace(lonmin, lonmax, 201)
+    dep = np.array([8.0])
+    mlat, mlon, mdep = np.meshgrid(lat, lon, dep)
+    ni = NetworkInfoCH()
+    ni.read(stationlist, sm=True)
+    do = DelayObsCH()
+    do.load(perstation=True)
+    if False:
+        # Run the model with 6 initial P-wave detections
+        resultsfn = os.path.join(datadir, 'alerts_6stations_ch.npz')
+        de.compute(ni, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=6,
+                   procdelay=True, target=None, nmaps=500,
+                   resultsfn=resultsfn, vp3d=False, latencies=do)
+    else:
+        # Run the model with 2 initial P-wave detections
+        resultsfn = os.path.join(datadir, 'alerts_2stations_ch.npz')
+        de.compute(ni, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=2,
+                   procdelay=True, target=None, nmaps=500,
+                   resultsfn=resultsfn, vp3d=False, latencies=do)
+
+
+def run_ca_model(target, source, env):
+    datadir = "./data/"
+    stationlist = os.path.join(datadir, 'stations_ca_2012-2013.txt')
+    de = DelayEEW()
+    latmin, latmax, lonmin, lonmax = 32, 43, -125, -114
+    lat = np.linspace(latmin, latmax, 201)
+    lon = np.linspace(lonmin, lonmax, 201)
+    dep = np.array([8.0])
+    mlat, mlon, mdep = np.meshgrid(lat, lon, dep)
+    ni = NetworkInfoCa()
+    ni.read(stationlist, sm=False)
+    if False:
+        resultsfn = os.path.join(datadir, 'alerts_4stations_ca.npz')
+        do = DelayObsCa()
+        do.load(perstation=True)
+    else:
+        resultsfn = os.path.join(datadir, 'alerts_4stations_ca_1slatency.npz')
+        do = DelayObsCa()
+        do.load(perstation=True, optimallatency=True)
+    de.compute(ni, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=4,
+                   procdelay=True, target=None, nmaps=500,
+                   resultsfn=resultsfn, vp3d=False, latencies=do)
+
+###################### Figure 5 ###############################################
+def scvsmag_delays_with_at_sm(target, source, env):
+    datadir = './data'
+    datdir2 = '/home/sysop/VS_tests/data/iaspei_no_data_latency/'
+    stationlist = os.path.join(datadir, 'stations_ch.txt')
+    rsfn = os.path.join(datadir, 'alerts_6stations_ch.npz')
+    datdir3 = '/home/sysop_sc3vsa/VS_reports_sc3rt_backup'
+    rtalrttbl = os.path.join(datadir, 'matched_events_ch_2013-2014.txt')
+    delayfn = os.path.join(datadir, 'alert_times.txt')
+    delayfnrt = os.path.join(datadir, 'alert_times_rt.txt')
+    cmapname = 'RdBu_r'
+    ni = NetworkInfoCH()
+    ni.read(stationlist, sm=True)
+    # Plot layout
+    fig = plt.figure(figsize=(10, 10))
+    ax = fig.add_axes([0.08, 0.35, 0.8, 0.6])
+    ax_lb = fig.add_axes([0.035, 0.05, 0.43, 0.25])
+    ax_ub = fig.add_axes([0.49, 0.05, 0.43, 0.25])
+    cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
+
+    am = AlertTimeMap(rsfn)
+    m = am.plot2D(fig, ax, procdelay=True)
+    am.plot_stations(fig, ax, ni)
+    mlb, mub = am.error_plot(ax_lb, ax_ub, cax)
+    fig.text(0.1, 0.065, '16th percentile', horizontalalignment='left',
+            verticalalignment='center', transform=ax.transAxes,
+            backgroundcolor='white')
+    fig.text(0.555, 0.065, '84th percentile', horizontalalignment='left',
+             verticalalignment='center', transform=ax.transAxes,
+            backgroundcolor='white')
+    fig.text(0.1, 0.89, 'a', transform=ax.transAxes, backgroundcolor='white')
+    fig.text(0.09, 0.27, 'b', transform=ax.transAxes, backgroundcolor='white')
+    fig.text(0.545, 0.27, 'c', transform=ax.transAxes, backgroundcolor='white')
+    datdir = '/home/sysop/VS_tests/data/iaspei2013_with_hg/'
+    datdir2 = '/home/sysop/VS_tests/data/iaspei_no_data_latency/'
+    at = AlertTimes(datdir, datdir2)
+    at.get_delays(new=False, delayfn=delayfn)
+    at.get_delays_rt(rtalrttbl, datdir3, delayfn=delayfnrt, cutoffmag=2.5,
+                     new=False)
+    at.alert_times_map(m=m, fig=fig, ax=ax, cb=False, interactive=True,
+                       realtime=True, cmapname=cmapname)
+    at.alert_times_map(m=mlb, fig=fig, ax=ax_lb, cb=False, interactive=False,
+                       msscale=0.7, realtime=True, cmapname=cmapname)
+    at.alert_times_map(m=mub, fig=fig, ax=ax_ub, cb=False, interactive=False,
+                       msscale=0.7, realtime=True, cmapname=cmapname)
+    fig.savefig(env['fout'], dpi=300, bbox_inches='tight')
+    plt.show()
+
+###################### Quantitative comparison ################################
+def scvsmag_delays_with_at_sm_diff(target, source, env):
+    datdir = '/home/sysop/VS_tests/data/iaspei2013_with_hg/'
+    datdir2 = '/home/sysop/VS_tests/data/iaspei_no_data_latency/'
+    datdir3 = '/home/sysop_sc3vsa/VS_reports_sc3rt_backup'
+    rsfn = './data/alerts_6stations_ch.npz'
+    rtalrttbl = './data/matched_events_ch_2013-2014.txt'
+    at = AlertTimes(datdir, datdir2)
+    at.get_delays(new=False, delayfn='./data/alert_times.txt')
+    at.get_delays_rt(rtalrttbl, datdir3, delayfn='./data/alert_times.txt',
+                     cutoffmag=2.5, new=False)
+    at.statistics(rsfn)
+
+###################### Figure 6 ###############################################
+def plot_ewvs_delays_ca_with_at(target, source, env):
+    datadir = './data'
+    stationlist = os.path.join(datadir, 'stations_ca_2012-2013.txt')
+    resultsfn = os.path.join(datadir, 'alerts_4stations_ca.npz')
+    cmapname = 'RdBu_r'
+    ni = NetworkInfoCa()
+    ni.read(stationlist, sm=False)
+    fig = plt.figure(figsize=(11, 12))
+    ax = fig.add_axes([0.08, 0.05, 0.6, 0.8])
+    axlb = fig.add_axes([0.72, 0.457, 0.28, 0.33])
+    axub = fig.add_axes([0.72, 0.114, 0.28, 0.33])
+    cax = fig.add_axes([0.1, 0.05, 0.8, 0.013])
+    am = AlertTimeMap(resultsfn, mapbox=(31.8, 43, -126, -114, 37.5))
+    am.extend = 'both'
+    m = am.plot2D(fig, ax, procdelay=True, geofilter=EventCA(),
+                           boxin=(32, 43, -125, -114))
+    am.plot_stations(fig, ax, ni, networklabels=True)
+    mlb, mub = am.error_plot(axlb, axub, cax, cborientation='horizontal')
+    # Add the Gutenberg-Byerly line.
+    xgb, ygb = m([-121.15, -117.86], [35.67, 37.45])
+    m.plot(xgb, ygb, 'k--', lw=3.0)
+    # Plot labels
+    fig.text(0.73, 0.5, '16th percentile', horizontalalignment='left',
+             verticalalignment='center', transform=ax.transAxes,
+             backgroundcolor='white')
+    fig.text(0.73, 0.15, '84th percentile', horizontalalignment='left',
+             verticalalignment='center', transform=ax.transAxes,
+             backgroundcolor='white')
+    fig.text(0.1, 0.75, 'a', transform=ax.transAxes, backgroundcolor='white')
+    fig.text(0.73, 0.75, 'b', transform=ax.transAxes, backgroundcolor='white')
+    fig.text(0.73, 0.4, 'c', transform=ax.transAxes, backgroundcolor='white')
+    at = EewvsAlertTimes()
+    datadir = '/home/behry/workspace/eew/reporter/reports'
+    fns = ['eewvs-reports-us-ca-2012.csv',
+           'eewvs-reports-us-ca-2013.csv']
+    # Get some more event information from the logfiles
+    eifn = './data/event_details.txt'
+    ei = number_of_picks([os.path.join(datadir, _f) for _f in fns],
+                         '/home/behry/tmp', eifn, new=False)
+    at.alert_times_map([os.path.join(datadir, _f) for _f in fns],
+                       m=m, fig=fig, ax=ax, cb=False, interactive=True,
+                       eventinfo=ei, cmapname=cmapname)
+    at.alert_times_map([os.path.join(datadir, _f) for _f in fns],
+                       m=mlb, fig=fig, ax=axlb, cb=False, interactive=False,
+                       eventinfo=ei, msscale=0.7, cmapname=cmapname)
+    at.alert_times_map([os.path.join(datadir, _f) for _f in fns],
+                       m=mub, fig=fig, ax=axub, cb=False, interactive=False,
+                       eventinfo=ei, msscale=0.7, cmapname=cmapname)
+    fig.savefig(env['fout'], dpi=300, bbox_inches='tight')
+    plt.show()
+
+###################### Quantitative comparison ################################
+def plot_ewvs_delays_ca_with_at_diff(target, source, env):
+    resultsfn = './data/alerts_4stations_ca.npz'
+    stationlist = './data/scedc_master_station_list.txt'
+    at = EewvsAlertTimes()
+    datadir = '/home/behry/workspace/eew/reporter/reports'
+    fns = ['eewvs-reports-us-ca-2012.csv',
+           'eewvs-reports-us-ca-2013.csv']
+    # Get some more event information from the logfiles
+    eifn = './data/event_details.txt'
+    ei = number_of_picks([os.path.join(datadir, _f) for _f in fns],
+                         '/home/behry/tmp', eifn, new=False)
+    do = DelayObsCa()
+    do.load(perstation=True)
+    at.statistics([os.path.join(datadir, _f) for _f in fns], resultsfn,
+                  stationlist, eventinfo=ei, latencies=do, computedelay=True,
+                  interactive=True)
+
+###################### Figure 7 ###############################################
+def diff_map_6stations_2stations_ch(target, source, env):
+    boxin = (45.4, 48.3, 5.6, 11.1)
+    boxout = (45, 48.5, 5, 12, 47)
+    meridians = np.arange(5, 12, 2)
+    parallels = np.arange(44, 49, 2)
+    stationlist = './data/stations_ch.txt'
+    cblabel = 'Alert time reduction [s]'
+    ni = NetworkInfoCH()
+    ni.read(stationlist, sm=True)
+    fig = diff_map(env['fin1'], env['fin2'], ni, boxin, boxout, meridians,
+                   parallels, StationInfoCH, 'CH', cblabel=cblabel, extend='neither')
+    fig.savefig(env['fout'], dpi=300, bbox_inches='tight')
+    plt.show()
+
+###################### Figure 8 ###############################################
+def diff_map_data_latency_ca(target, source, env):
+    boxin = (32, 43, -125, -114)
+    boxout = (31.8, 43, -126, -114, 37.5)
+    meridians = np.arange(-126, -112, 4)
+    parallels = np.arange(30, 44, 4)
+    stationlist = 'data/stations_ca_2012-2013.txt'
+    ni = NetworkInfoCa()
+    ni.read(stationlist, sm=False)
+    cblabel = 'Alert time reduction [s]'
+    fig = diff_map(env['fin1'], env['fin2'], ni, boxin, boxout, meridians,
+                   parallels, StationInfoCA, 'CA', cblabel=cblabel, extend='min',
+                   vmin=1., vmax=6., geofilter=EventCA(), sm=False)
+    fig.savefig(env['fout'], dpi=300, bbox_inches='tight')
+    plt.show()
+
+def diff_map(fin1, fin2, netinfo, boxin, boxout, meridians, parallels,
+             stationinfo, region, sm=True, geofilter=None, cblabel='', vmin=0., vmax=10.,
+             extend='max', smooth=True):
+    cmapname = 'RdBu_r'
+    a = np.load(fin1)
+    lat = a['lat'][:, :, 0]
+    lon = a['lon'][:, :, 0]
+    ttPa = a['ttP']
+    b = np.load(fin2)
+    ttPb = b['ttP']
+    ttP = ttPa - ttPb
+    ttP = np.where(ttP > 0., ttP, 0.)
+    latmin, latmax, lonmin, lonmax = boxin
+    fig = plt.figure(figsize=(10, 10))
+    ax = fig.add_axes([0.08, 0.35, 0.8, 0.6])
+    cmap = cm.get_cmap(cmapname)
+    cmap.set_over('grey')
+    cmap.set_under('grey')
+    unit = 's'
+    # clevels = [8, 12]
+    clevels_colours = ['lightgray', 'gray']
+    dlevel = 0.5
+    llcrnrlat, urcrnrlat, llcrnrlon, urcrnrlon, lat_ts = boxout
+    m = Basemap(projection='merc', llcrnrlat=llcrnrlat,
+                urcrnrlat=urcrnrlat, llcrnrlon=llcrnrlon,
+                urcrnrlon=urcrnrlon, lat_ts=lat_ts, resolution='i', ax=ax)
+    # Mask points outside of polygon
+    if geofilter is not None:
+        rowidx = 0
+        colidx = 0
+        idx = 0
+        ydim = lat.shape[1]
+        for _lat, _lon in zip(lat.ravel(), lon.ravel()):
+            rowidx = int(idx / ydim)
+            colidx = int(idx - rowidx * ydim)
+            idx += 1
+            if not geofilter.point_in_polygon([_lon], [_lat])[0]:
+                ttP[:, rowidx, colidx, :] = np.nan
+
+    ttPmed = np.median(ttP, axis=0)
+    ttPmed = np.median(ttPmed, axis=-1)
+    print "The minimum alert time is: ", ttPmed.min()
+    print "The maximum alert time is: ", ttPmed.max()
+    if smooth:
+        xmin, ymin = m(lon.min(), lat.min())
+        xmax, ymax = m(lon.max(), lat.max())
+        nx = int((xmax - xmin) / 5000.) + 1
+        ny = int((ymax - ymin) / 5000.) + 1
+        lon_lin = np.linspace(lon.min(), lon.max(), lon.shape[1])
+        lat_lin = np.linspace(lat.min(), lat.max(), lat.shape[0])
+        ttPmed, x, y = m.transform_scalar(ttPmed.T, lon_lin, lat_lin,
+                                          nx, ny, returnxy=True, masked=True)
+    else:
+        x, y = m(lon, lat)
+    cf = m.contourf(x, y, ttPmed, cmap=cmap,
+                    levels=np.arange(vmin, vmax + dlevel, dlevel),
+                    norm=Normalize(vmin=vmin, vmax=vmax), extend=extend)
+    # Add contour lines
+    if 'clevels' in vars().keys():
+        for _lev, _col in zip(clevels, clevels_colours):
+            cs = m.contour(x, y, ttPmed, colors=_col, levels=[_lev],
+                           linestyles='solid', linewidths=3)
+            with warnings.catch_warnings(record=True):
+                plt.clabel(cs, fmt="%d " + unit, fontsize=12, colors=_col)
+    # Plot station locations
+    nws = netinfo.get_networks()
+    for net in nws:
+        color = nws[net]['color']
+        label = nws[net]['label']
+        stlat = nws[net]['lat']
+        stlon = nws[net]['lon']
+        for _lt, _ln in zip(stlat, stlon):
+            x, y = m(_ln, _lt)
+            m.plot(x, y, color=color, marker='^', mec='black', ms=5,
+                   ls='None')
+        m.plot(x, y, color=color, marker='^', mec='black', ms=5,
+               label=label, ls='None')
+    if region == 'CA':
+        ax.legend(numpoints=1, borderpad=0.2, fontsize='small', markerscale=1.5)
+
+    cb = fig.colorbar(cf, extend=extend, orientation='vertical',
+                      spacing='uniform', shrink=0.8)
+    cb.set_label(cblabel)
+    m.drawmeridians(meridians, labels=[0, 0, 0, 1], color='lightgray',
+                    linewidth=0.5, zorder=0)
+    m.drawparallels(parallels, labels=[1, 0, 0, 0], color='lightgray',
+                    linewidth=0.5, zorder=0)
+    m.drawcoastlines(zorder=2)
+    m.drawcountries(linewidth=1.0, zorder=2)
+    m.drawstates(zorder=2)
+    return fig
+
+###############################################################################
+sourcefn = 'srl.scons'
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=timeline)},
+                   fout='plots/srl/timeline.pdf')
+env.do('timeline', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=p_wave_tt_ch)},
+                   fout='plots/srl/p_wave_tt_6_stations_ch.pdf')
+env.do('p_wave_tt_ch', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=p_wave_tt_ca)},
+                   fout='plots/srl/p_wave_tt_4_stations_ca.pdf')
+env.do('p_wave_tt_ca', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=combi_figure)},
+                   fout='plots/srl/delay_histograms.pdf')
+env.do('combi_figure', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=scvsmag_delays_with_at_sm)},
+                   fout='plots/srl/scvsmag_delay_map_with_at_sm.pdf')
+env.do('scvsmag_delays_with_at_sm', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=run_ch_model)})
+env.do('run_ch_model', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=scvsmag_delays_with_at_sm_diff)})
+env.do('scvsmag_delays_with_at_sm_diff', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=run_ca_model)})
+env.do('run_ca_model', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=plot_ewvs_delays_ca_with_at)},
+                   fout='plots/srl/eewvs_delay_map_with_at.pdf')
+env.do('plot_ewvs_delays_ca_with_at', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=plot_ewvs_delays_ca_with_at_diff)})
+env.do('plot_ewvs_delays_ca_with_at_diff', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=diff_map_6stations_2stations_ch)},
+                   fin1='./data/alerts_6stations_ch.npz',
+                   fin2='./data/p_wave_tt_2_stations_ch_sm_procdel_mod.npz',
+                   fout='plots/srl/diff_map_6stations_2stations_ch.pdf')
+env.do('diff_map_6stations_2stations_ch', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=diff_map_data_latency_ca)},
+                   fin1='./data/alerts_4stations_ca.npz',
+                   fin2='./data/alerts_4stations_ca_1slatency.npz',
+                   fout='plots/srl/diff_map_data_latency_ca.pdf')
+env.do('diff_map_data_latency_ca', sourcefn)
+
+
