@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Compute theoretical alert delays.
+Compute theoretical alert delays or P-wave traveltimes.
 
 Created on Jan 22, 2015
 
@@ -83,11 +83,29 @@ class DelayEEW:
                 resultsfn='p_wave_tt_6_stations.npz', datadir='./data',
                 latencies=None, vp3d=False):
 
+        # If given a target location (lon,lat) it will also compute
+        # the lead time from any potential epicenter to the target site
         if target is not None:
             tln, tlt = target
 
+        # get the station locations
         networks = networkinfo.get_networks()
 
+        # get the delay measurement distributions:
+        # pkdel = pick delays
+        # envdel = envelope delays
+        # ascdel = associator/locator delays
+        # magdel = magnitude delays
+        # pkdefault = pick default delay
+        # envdefault = envelope default delay
+        # Note pkdel and envdel have to be Python dictionaries that have
+        # a Numpy array of delay measurements for every station name key
+        # ascdel and magdel are simply Numpy arrays containing delay
+        # observations
+        # pkdefault and envdefault are Python dictionaries that contain a
+        # default delay value for every network name key. These default values
+        # are used if a station is in the list of stations returned by
+        # networkinfo but does not have delay observations in pkdel and envdel
         if procdelay and latencies is not None:
             pkdel = latencies.get_pick_delays()
             envdel = latencies.get_envelope_delays()
@@ -120,11 +138,16 @@ class DelayEEW:
         pbar = pg.ProgressBar(widgets=widgets, maxval=nmaps * ngp).start()
         no_env_dl = []
         no_pk_dl = []
+        # loop over samples (Monte-Carlo simulation)
         for nm in range(nmaps):
             idx = 0
+            # loop over earthquake locations
             for _lat, _lon, _dep in zip(lat, lon, dep):
                 pbar.update(nm * ngp + idx)
                 min_dt = 1.e38
+                # loop over networks; all stations within a network are
+                # considered for delay computations but only the fastest alert
+                # is stored
                 for net in networks.keys():
                     if len(networks[net]['lat']) < 1:
                         continue
@@ -135,6 +158,9 @@ class DelayEEW:
                     maxnstat = min(10, len(stlat))
                     nnst = min(nnst, len(stlat))
 
+                    # An option to used traveltimes from a 3D model instead
+                    # of a homogeneous halfspace; only works on my computer
+                    # at the moment
                     if vp3d:
                         datadir = './data/ttime_ch/'
                         fin = os.path.join(datadir, "%.4f_%.4f_%.1f.npy" % \
@@ -161,6 +187,9 @@ class DelayEEW:
                         tstarget[idx] = np.sqrt(distt * distt + _dep * _dep) / vs
 
                     # Add delays
+                    # Note: if a close by station has very long delays, the
+                    # algorithm will pick one of the next further stations
+                    # if they can send data before the closer station
                     if procdelay:
                         pk_delays = []
                         env_delays = []
@@ -192,6 +221,7 @@ class DelayEEW:
             ttP[nm] = ttPtmp.reshape(elon.shape)
 
         tstarget = tstarget.reshape(elon.shape)
+        # store the results for plotting
         if resultsfn is not None:
             np.savez(resultsfn, ttP=ttP, tstarget=tstarget, lat=elat, lon=elon,
                      dep=edep)
