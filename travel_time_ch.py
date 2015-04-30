@@ -8,7 +8,6 @@ Created on Jun 24, 2013
 """
 import os
 import sys
-sys.path.append(os.path.join(os.environ['HOME'], 'mypy'))
 import progressbar as pg
 import numpy as np
 import pyproj

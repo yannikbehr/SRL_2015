@@ -7,6 +7,7 @@ Created on Jun 24, 2013
 @author: behry
 """
 import sys
+sys.path.append('./swissgmpe')
 from swissgmpe import SwissGmpe
 from pga_map_ch import pgamap
 import numpy as np
