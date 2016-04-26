@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import scoreatpercentile
 from mpl_toolkits.basemap import Basemap
-from Scientific.IO.NetCDF import NetCDFFile as Dataset
+from scipy.io.netcdf import NetCDFFile as Dataset
 from matplotlib.colors import LightSource
 from matplotlib.colorbar import ColorbarBase
 from matplotlib.colors import Normalize
