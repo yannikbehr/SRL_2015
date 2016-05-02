@@ -17,7 +17,7 @@ from shapely.prepared import prep
 
 class EventCh:
     def __init__(self):
-        self.sf = shapefile.Reader('/home/behry/uni/data/shapefiles/shp/gg25_a_v2_Dissolve')
+        self.sf = shapefile.Reader('./data/gg25_a_v2_Dissolve')
         shapes = self.sf.shapes()
         self.points = np.array(shapes[0].points)
         # Convert the Swiss Coordinate System into lat/lon
@@ -64,8 +64,7 @@ class EventCh:
 class EventCA(EventCh):
 
     def __init__(self):
-        # filterfn = '/home/behry/workspace/eew/reports/data/california_filter_revised.txt'
-        filterfn = '/home/behry/workspace/eew/reports/data/cafilter_dm_review.txt'
+        filterfn = './data/cafilter_dm_review.txt'
         lon, lat = np.loadtxt(filterfn, unpack=True)
         self.p = pyproj.Proj(proj="aea", lat_0='0.00', lon_0='-120',
                              lat_1='34.00', lat_2='40.50',
@@ -83,8 +82,7 @@ class EventCA(EventCh):
 class EventSoCal(EventCh):
 
     def __init__(self):
-        # filterfn = '/home/behry/workspace/eew/reports/data/california_filter_revised.txt'
-        filterfn = '/home/behry/workspace/eew/reports/data/SoCalfilter.txt'
+        filterfn = './data/SoCalfilter.txt'
         lon, lat = np.loadtxt(filterfn, unpack=True)
         self.p = pyproj.Proj(proj="aea", lat_0='0.00', lon_0='-120',
                              lat_1='34.00', lat_2='40.50',
@@ -102,7 +100,7 @@ class EventSoCal(EventCh):
 class EventCHP(EventCh):
 
     def __init__(self):
-        filterfn = '/home/behry/workspace/eew/reports/data/swiss_polygon.txt'
+        filterfn = './data/swiss_polygon.txt'
         lon, lat = np.loadtxt(filterfn, unpack=True)
         self.p = pyproj.Proj(proj="somerc", lat_0='46d57\'8.660"N',
                              lon_0='7d26\'22.500"E',
@@ -119,7 +117,7 @@ class EventCHP(EventCh):
 class EventBrawley(EventCh):
 
     def __init__(self):
-        filterfn = '/home/behry/workspace/eew/reports/data/brawley_polygon.txt'
+        filterfn = './data/brawley_polygon.txt'
         lon, lat = np.loadtxt(filterfn, unpack=True)
         self.p = pyproj.Proj(proj="aea", lat_0='0.00', lon_0='-120',
                              lat_1='34.00', lat_2='40.50',

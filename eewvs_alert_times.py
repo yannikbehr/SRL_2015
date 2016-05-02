@@ -7,7 +7,6 @@ Created on Oct 18, 2013
 
 import math
 import sys
-sys.path.append('/home/behry/workspace/eew/reports')
 from obspy import UTCDateTime
 import matplotlib
 try:
