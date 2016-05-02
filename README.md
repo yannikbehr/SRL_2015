@@ -11,8 +11,7 @@ mpl_toolkits.Basemap
 pyproj  
 shapely  
 shapefile  
-ipdb  
-ScientificPython
+
 
 All scripts are called from the scons script 'srl.scons'. To reproduce the figures 
 of the SRL publication you can run:
