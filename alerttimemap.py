@@ -25,7 +25,6 @@ from mpl_toolkits.basemap import Basemap
 from scipy.stats import scoreatpercentile
 from copy import copy
 import warnings
-import ipdb
 
 
 class AlertTimeMap:

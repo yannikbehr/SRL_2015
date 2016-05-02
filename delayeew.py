@@ -12,7 +12,6 @@ sys.path.append(os.path.join(os.environ['HOME'], 'mypy'))
 import progressbar as pg
 import numpy as np
 import pyproj
-import ipdb
 
 
 class NetworkInfo:
