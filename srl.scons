@@ -1,5 +1,5 @@
 import matplotlib
-if True:
+if False:
     try:
         matplotlib.use('WXAgg')
         import wx
@@ -356,6 +356,13 @@ def p_wave_tt_ch(target, source, env):
         de.compute(ni, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=6,
                    procdelay=False, target=None, nmaps=1,
                    resultsfn=resultsfn, vp3d=False)
+    else:  # added by FM 
+        resultsfn = './data/p_wave_tt_2_stations_ch_sm_procdel_mod.npz'
+        de = DelayEEW()
+        de.compute(ni, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=2,
+                   procdelay=False, target=None, nmaps=1,
+                   resultsfn=resultsfn, vp3d=False)
+
 
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_axes([0.08, 0.35, 0.8, 0.6])
@@ -389,7 +396,7 @@ def p_wave_tt_ca(target, source, env):
     mlat, mlon, mdep = np.meshgrid(lat, lon, dep)
     ni = NetworkInfoCa()
     ni.read(stationlist, sm=False)
-    if False:
+    if True:
         de = DelayEEW()
         de.compute(ni, mlon, mlat, mdep, vp=6.5, vs=3.5, nnst=4,
                    procdelay=False, target=None, nmaps=1,
@@ -756,6 +763,11 @@ env = Environment(ENV=os.environ,
                    BUILDERS={'do': Builder(action=p_wave_tt_ch)},
                    fout='plots/srl/p_wave_tt_6_stations_ch.pdf')
 env.do('p_wave_tt_ch', sourcefn)
+
+env = Environment(ENV=os.environ,
+                   BUILDERS={'do': Builder(action=p_wave_tt_ch)},
+                   fout='plots/srl/p_wave_tt_2_stations_ch_sm_procdel_mod.pdf')
+env.do('p_wave_tt_2_stations_ch_sm_procdel_mod', sourcefn)
 
 env = Environment(ENV=os.environ,
                    BUILDERS={'do': Builder(action=p_wave_tt_ca)},

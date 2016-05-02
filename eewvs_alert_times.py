@@ -18,14 +18,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import scoreatpercentile
 from mpl_toolkits.basemap import Basemap
-from scipy.io.netcdf import NetCDFFile as Dataset
+from scipy.io.netcdf import netcdf_file as Dataset #from Scientific.IO.NetCDF import NetCDFFile as Dataset
 from matplotlib.colors import LightSource
 from matplotlib.colorbar import ColorbarBase
 from matplotlib.colors import Normalize
 from matplotlib.pyplot import cm
 from matplotlib.patches import Wedge
 from reports_parser import ReportsParser
-from obspy.core.util import gps2DistAzimuth
+from obspy.geodetics import gps2dist_azimuth # obspy.core.util.gps2DistAzimuth soon to be deprecated
 from point_in_polygon import EventCA, EventSoCal
 from scipy import spatial
 import pyproj

@@ -7,7 +7,11 @@ Created on Nov 26, 2013
 import sys
 import os
 import matplotlib
-matplotlib.use('TkAgg')
+#matplotlib.use('TkAgg')
+try: # added by FM
+    matplotlib.use('TkAgg')
+except:
+    print "TkAgg package for Python not installed"
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import numpy as np
