@@ -584,7 +584,7 @@ def plot_ewvs_delays_ca_with_at(target, source, env):
     fig.text(0.73, 0.75, 'b', transform=ax.transAxes, backgroundcolor='white')
     fig.text(0.73, 0.4, 'c', transform=ax.transAxes, backgroundcolor='white')
     at = EewvsAlertTimes()
-    datadir = '/home/behry/workspace/eew/reporter/reports'
+    datadir = './data'
     fns = ['eewvs-reports-us-ca-2012.csv',
            'eewvs-reports-us-ca-2013.csv']
     # Get some more event information from the logfiles
@@ -608,7 +608,7 @@ def plot_ewvs_delays_ca_with_at_diff(target, source, env):
     resultsfn = './data/alerts_4stations_ca.npz'
     stationlist = './data/scedc_master_station_list.txt'
     at = EewvsAlertTimes()
-    datadir = '/home/behry/workspace/eew/reporter/reports'
+    datadir = './data/'
     fns = ['eewvs-reports-us-ca-2012.csv',
            'eewvs-reports-us-ca-2013.csv']
     # Get some more event information from the logfiles
