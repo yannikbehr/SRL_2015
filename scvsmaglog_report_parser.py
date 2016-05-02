@@ -6,7 +6,7 @@ Created on Mar 10, 2013
 @author: behry
 """
 from obspy import UTCDateTime
-from obspy.core.util import gps2DistAzimuth
+from obspy.geodetics import gps2dist_azimuth # obspy.core.util.gps2DistAzimuth soon to be deprecated
 import numpy as np
 
 def parser(fn, trueot=None, trueloc=None, format='old'):

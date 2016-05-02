@@ -8,7 +8,12 @@ Created on Nov 26, 2013
 import os
 import numpy as np
 import matplotlib
-matplotlib.use('WXAgg')
+#matplotlib.use('WXAgg')
+try: # added by FM
+    matplotlib.use('WXAgg')
+    import wx
+except:
+    print "WX package for Python not installed"
 import matplotlib.pyplot as plt
 import json
 from matplotlib import rcParams

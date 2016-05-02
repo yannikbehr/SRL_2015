@@ -25,7 +25,7 @@ from matplotlib.colors import Normalize
 from matplotlib.pyplot import cm
 from matplotlib.patches import Wedge
 from reports_parser import ReportsParser
-from obspy.core.util import gps2DistAzimuth
+from obspy.geodetics import gps2dist_azimuth # obspy.core.util.gps2DistAzimuth soon to be deprecated
 from point_in_polygon import EventCA, EventSoCal
 from scipy import spatial
 import pyproj
