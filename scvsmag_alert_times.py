@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import optimize
 from mpl_toolkits.basemap import Basemap
-#from Scientific.IO.NetCDF import NetCDFFile as Dataset
+# from Scientific.IO.NetCDF import NetCDFFile as Dataset
 from scipy.io.netcdf import netcdf_file as Dataset
 
 from matplotlib.colors import LightSource
@@ -199,23 +199,6 @@ class AlertTimes:
                     resolution='i', ax=ax)
         m.drawmapboundary(fill_color='lightblue', zorder=0)
         m.fillcontinents(zorder=0)
-        etopofn = '/home/behry/uni/data/etopo1_central_europe_gmt.grd'
-        etopodata = Dataset(etopofn, 'r')
-        z = etopodata.variables['z'][:]
-        x_range = etopodata.variables['x_range'][:]
-        y_range = etopodata.variables['y_range'][:]
-        spc = etopodata.variables['spacing'][:]
-        lats = np.arange(y_range[0], y_range[1], spc[1])
-        lons = np.arange(x_range[0], x_range[1], spc[0])
-        topoin = z.reshape(lats.size, lons.size, order='C')
-        # transform to nx x ny regularly spaced 5km native projection grid
-        nx = int((m.xmax - m.xmin) / 5000.) + 1; ny = int((m.ymax - m.ymin) / 5000.) + 1
-        topodat, x, y = m.transform_scalar(np.flipud(topoin), lons, lats, nx, ny, returnxy=True)
-        ls = LightSource(azdeg=300, altdeg=15, hsv_min_sat=0.2, hsv_max_sat=0.3,
-                         hsv_min_val=0.2, hsv_max_val=0.3)
-        # shade data, creating an rgb array.
-        rgb = ls.shade(np.ma.masked_less(topodat / 1000.0, 0.0), cm.gist_gray_r)
-        m.imshow(rgb)
         m.drawmeridians(np.arange(6, 12, 2), labels=[0, 0, 0, 1], color='white',
                         linewidth=0.5, zorder=0)
         m.drawparallels(np.arange(44, 50, 2), labels=[1, 0, 0, 0], color='white',
